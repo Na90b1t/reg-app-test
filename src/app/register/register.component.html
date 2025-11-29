@@ -1,0 +1,92 @@
+<div class="auth-card">
+  <h1>Регистрация</h1>
+  <p class="auth-subtitle">Создайте новый аккаунт</p>
+
+  <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+    <div class="error" *ngIf="errorMessage" style="margin-bottom: 1rem;">{{ errorMessage }}</div>
+    
+    <div class="user-type-toggle">
+      <button type="button" [class.active]="userType === 'user'" (click)="selectUserType('user')">
+        Обычный пользователь
+      </button>
+      <button type="button" [class.active]="userType === 'mop'" (click)="selectUserType('mop')">
+        Агент MOP
+      </button>
+    </div>
+
+    <label for="name">Имя</label>
+    <input
+      id="name"
+      type="text"
+      [(ngModel)]="name"
+      name="name"
+      required
+      [class.invalid]="showErrors && !name"
+      placeholder="Ваше имя"
+    />
+    <div class="error" *ngIf="showErrors && !name">Укажите имя</div>
+
+    <ng-container *ngIf="userType === 'user'; else agentBlock">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+        [class.invalid]="showErrors && !email"
+        placeholder="you@example.com"
+      />
+      <div class="error" *ngIf="showErrors && !email">Укажите email</div>
+    </ng-container>
+
+    <ng-template #agentBlock>
+      <label for="agentCode">Код агента (5 цифр)</label>
+      <input
+        id="agentCode"
+        type="text"
+        inputmode="numeric"
+        maxlength="5"
+        [(ngModel)]="agentCode"
+        name="agentCode"
+        required
+        [class.invalid]="showErrors && !agentCode"
+        placeholder="Например: 12345"
+      />
+      <div class="error" *ngIf="showErrors && !agentCode">Укажите код агента</div>
+      <div class="info-text">Код будет использоваться для входа или Auth0.</div>
+    </ng-template>
+
+    <label for="password">Пароль</label>
+    <input
+      id="password"
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+      [class.invalid]="showErrors && !password"
+      placeholder="Пароль"
+    />
+    <div class="error" *ngIf="showErrors && !password">Укажите пароль</div>
+
+    <label for="confirmPassword">Подтверждение пароля</label>
+    <input
+      id="confirmPassword"
+      type="password"
+      [(ngModel)]="confirmPassword"
+      name="confirmPassword"
+      required
+      [class.invalid]="showErrors && (passwordMismatch || !confirmPassword)"
+      placeholder="Повторите пароль"
+    />
+    <div class="error" *ngIf="passwordMismatch">Пароли не совпадают</div>
+    <div class="error" *ngIf="showErrors && !confirmPassword && !passwordMismatch">Повторите пароль</div>
+
+    <button type="submit">Создать аккаунт</button>
+  </form>
+
+  <p class="switch-link">
+    Уже есть аккаунт? <a routerLink="/login">Войти</a>
+  </p>
+</div>
+

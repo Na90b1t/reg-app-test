@@ -1,0 +1,17 @@
+<nav class="main-nav">
+  <span class="brand">Simple Auth</span>
+  <div class="nav-right">
+    <div class="links">
+      <a routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Вход</a>
+      <a routerLink="/register" routerLinkActive="active">Регистрация</a>
+    </div>
+    <div class="user-info" *ngIf="currentUser">
+      <span class="user-name">Привет, {{ currentUser.name }}!</span>
+      <button class="logout-btn" (click)="logout()">Выйти</button>
+    </div>
+  </div>
+</nav>
+
+<main class="main-container">
+  <router-outlet></router-outlet>
+</main>
