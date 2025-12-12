@@ -2,67 +2,63 @@
   <h1>Вход</h1>
   <p class="auth-subtitle">Выберите тип пользователя и введите данные для входа.</p>
 
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <div class="error" *ngIf="errorMessage" style="margin-bottom: 1rem;">{{ errorMessage }}</div>
+  <form (ngSubmit)="onSubmit()"
+        #loginForm="ngForm">
+    <div class="error"
+         *ngIf="errorMessage"
+         style="margin-bottom: 1rem;">{{ errorMessage }}</div>
 
     <div class="user-type-toggle">
-      <button type="button" [class.active]="userType === 'user'" (click)="selectUserType('user')">
+      <button type="button"
+              [class.active]="userType === 'user'"
+              (click)="selectUserType('user')">
         Обычный пользователь
       </button>
-      <button type="button" [class.active]="userType === 'mop'" (click)="selectUserType('mop')">
+      <button type="button"
+              [class.active]="userType === 'mop'"
+              (click)="selectUserType('mop')">
         Агент MOP
       </button>
     </div>
 
     <ng-container *ngIf="userType === 'user'; else mopFields">
       <label for="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        [(ngModel)]="email"
-        name="email"
-        required
-        [class.invalid]="showErrors && !email"
-        placeholder="you@example.com"
-      />
-      <div class="error" *ngIf="showErrors && !email">Укажите email</div>
+      <input id="email"
+             type="email"
+             [(ngModel)]="email"
+             name="email"
+             required
+             [class.invalid]="showErrors && !email"
+             placeholder="you@example.com" />
+      <div class="error"
+           *ngIf="showErrors && !email">Укажите email</div>
+
+      <label for="password">Пароль</label>
+      <input id="password"
+             type="password"
+             [(ngModel)]="password"
+             name="password"
+             required
+             [class.invalid]="showErrors && !password"
+             placeholder="Пароль" />
+      <div class="error"
+           *ngIf="showErrors && !password">Укажите пароль</div>
     </ng-container>
 
     <ng-template #mopFields>
-      <label for="agentCode">Код агента (5 цифр)</label>
-      <input
-        id="agentCode"
-        type="text"
-        inputmode="numeric"
-        maxlength="5"
-        [(ngModel)]="agentCode"
-        name="agentCode"
-        required
-        [class.invalid]="showErrors && !agentCode"
-        placeholder="Например: 12345"
-      />
-      <div class="error" *ngIf="showErrors && !agentCode">Укажите код агента</div>
-      <div class="info-text">Для агентов доступен альтернативный вход:</div>
-      <button type="button" class="auth0-btn" (click)="loginWithAuth0()">Вход через Auth0</button>
+      <div class="info-text">Вход для агентов доступен только через корпоративную систему:</div>
+      <button type="button"
+              class="auth0-btn"
+              (click)="loginWithAuth0()">Вход через Auth0</button>
     </ng-template>
 
-    <label for="password">Пароль</label>
-    <input
-      id="password"
-      type="password"
-      [(ngModel)]="password"
-      name="password"
-      required
-      [class.invalid]="showErrors && !password"
-      placeholder="Пароль"
-    />
-    <div class="error" *ngIf="showErrors && !password">Укажите пароль</div>
-
-    <button type="submit">Войти</button>
+    <!-- Кнопка "Войти" только для обычного пользователя -->
+    <button type="submit"
+            *ngIf="userType === 'user'">Войти</button>
   </form>
 
-  <p class="switch-link">
+  <p class="switch-link"
+     *ngIf="userType === 'user'">
     Нет аккаунта? <a routerLink="/register">Зарегистрироваться</a>
   </p>
 </div>
-
